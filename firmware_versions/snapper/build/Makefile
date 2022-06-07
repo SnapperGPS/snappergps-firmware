@@ -4,9 +4,9 @@
 # November 2020
 #****************************************************************************
 
-# Set the toolpath parameter to the location of the GNU Arm Embedded Toolchain
+# Set the toolpath parameter to the location of the Arm GNU Toolchain
 
-TOOLCHAIN_PATH = /Library/Toolchains/
+TOOLCHAIN_PATH = --- INSERT PATH TO ARM GNU TOOLCHAIN HERE (e.g., /Library/Toolchains/) ---
 
 TOOLCHAIN_VERSION = gcc-arm-none-eabi-10-2020-q4-major
 
