@@ -5,7 +5,7 @@ The receiver is based on a low-power Silicon Labs Happy Gecko microcontroller (M
 The firmware is exclusively written in the C programming language.
 
 * If you have a SnapperGPS receiver with an older version of the firmware and just want to update it, then you can just go to [the *Configure* page of the SnapperGPS app](http://snapper-gps.herokuapp.com/configure) and hit the *Update firmware* button.
-* If you have a SnapperGPS receiver without firmware and want to install the most recent standard firmware, then you can download [the most recent binary](http://snapper-gps.herokuapp.com/firmware/snapper.bin) and go to the section on [Flashing](#flashing).
+* If you have a SnapperGPS receiver without firmware and want to install the most recent standard firmware, then you can download [the most recent binary](https://github.com/SnapperGPS/snappergps-firmware/releases) and go to the section on [Flashing](#flashing).
 * If you want to modify the standard firmware, then keep reading.
 
 ### Table of contents
