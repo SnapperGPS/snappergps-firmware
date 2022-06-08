@@ -253,7 +253,7 @@ static volatile bool loadFirmware = false;
 
 static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 6};
 
-static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-Test-Board-2";
+static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-Basic";
 
 /* Board version */
 
