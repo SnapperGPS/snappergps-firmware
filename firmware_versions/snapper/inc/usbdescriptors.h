@@ -63,13 +63,12 @@ static const char BOS_Descriptor[] __attribute__ ((aligned(4))) = {
 
 SL_ALIGN(4)
 static const char URL_Descriptor[] __attribute__ ((aligned(4))) = {
-    0x1C,                                                   /* bLength                                  */
+    0x12,                                                   /* bLength                                  */
     0x03,                                                   /* bDescriptorType                          */
     0x01,                                                   /* bScheme                                  */
     's', 'n', 'a', 'p', 'p', 'e', 'r',                      /* URL                                      */
-    '-', 'g', 'p', 's', '.', 'h', 'e', 
-    'r', 'o', 'k', 'u', 'a', 'p', 'p',
-    '.', 'c', 'o', 'm',
+    'g', 'p', 's', '.', 'i', 'n', 'f', 
+    'o',
 };
 
 /* Microsoft OS 2.0 Descriptor */
