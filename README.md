@@ -4,7 +4,7 @@ This is the standard firmware for a SnapperGPS receiver.
 The receiver is based on a low-power Silicon Labs Happy Gecko microcontroller (MCU), specifically, the [EFM32HG310F64G](https://www.silabs.com/mcu/32-bit-microcontrollers/efm32-happy-gecko/device.efm32hg310f64g-qfn32), which has an Arm Cortex M0+ core, 64 KB flash memory, and 8 KB RAM.
 The firmware is exclusively written in the C programming language.
 
-* If you have a SnapperGPS receiver with an older version of the firmware and just want to update it, then you can just go to [the *Configure* page of the SnapperGPS app](http://snapper-gps.herokuapp.com/configure) and hit the *Update firmware* button.
+* If you have a SnapperGPS receiver with an older version of the firmware and just want to update it, then you can just go to [the *Configure* page of the SnapperGPS app](https://snappergps.info/configure) and hit the *Update firmware* button.
 * If you have a SnapperGPS receiver without firmware and want to install the most recent standard firmware, then you can download [the most recent binary](https://github.com/SnapperGPS/snappergps-firmware/releases) and go to the section on [Flashing](#flashing).
 * If you want to modify the standard firmware, then keep reading.
 
@@ -63,14 +63,14 @@ firmware/bootloader is present on the device:
 ### Flash the most recent SnapperGPS firmware to a device that runs SnapperGPS firmware already
 
 - Connect your SnapperGPS receiver via USB.
-- Go to https://snapper-gps.herokuapp.com/configure.
+- Go to https://snappergps.info/configure.
 - Pair your receiver, if necessary.
 - Update the firmware using the "Update firmware" button.
 
 ### Flash custom firmware to a device that supports at least a subset of the SnapperGPS USB messages
 
 - Connect your device via USB.
-- Go to https://snapper-gps.herokuapp.com/flash.
+- Go to https://snappergps.info/flash.
 - Pair your device, if necessary.
 - Select the firmware binary on your host computer.
 - Update the firmware using the "Update firmware" button.
@@ -469,7 +469,7 @@ typedef enum {
 ```
 
 The last four messages are for loading new firmware.
-There is a small [website](https://snapper-gps.herokuapp.com/flash) that allows
+There is a small [website](https://snappergps.info/flash) that allows
 to flash any device that supports the generic messages.
 It first sends `SET_FIRMWARE_INIT_MESSAGE`, followed by the correct number of
 `SET_FIRMWARE_PAGE_MESSAGE`, and finally `GET_FIRMWARE_CRC_MESSAGE`.
