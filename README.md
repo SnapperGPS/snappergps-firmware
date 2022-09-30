@@ -16,6 +16,7 @@ The firmware is exclusively written in the C programming language.
   * [Library](#library)
   * [USB Descriptor](#usb-descriptor)
   * [WebUSB Messages](#webusb-messages)
+  * [Acknowledgements](#acknowledgements)
 
 ## Repository Structure
 
@@ -744,3 +745,8 @@ typedef struct {
   uint8_t snapshot[6144]
 } usbMessageGetSnapshotOut_t;
 ```
+
+## Acknowledgements
+
+SnapperGPS was funded by an EPSRC IAA Technology Fund (D4D00010-BL14).
+Jonas Beuchert and Amanda Matthes are funded by the EPSRC Centre for Doctoral Training in Autonomous Intelligent Machines and Systems (DFT00350-DF03.01, DFT00350-DF03.05).
