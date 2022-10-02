@@ -251,9 +251,9 @@ static volatile bool loadFirmware = false;
 
 /* Firmware version */
 
-static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 7};
+static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 1};
 
-static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-Basic";
+static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-Debug";
 
 /* Board version */
 
@@ -1251,6 +1251,12 @@ int main(void) {
 
                         Timer_enable();
 
+                        // Enabeled DC boost
+                        enableGreenLED(true);
+                        Timer_delayMilliseconds(1000);
+                        enableGreenLED(false);
+                        Timer_delayMilliseconds(1000);
+
                         // Enable the ADC
 
                         AnalogToDigitalConverter_enable();
@@ -1271,11 +1277,29 @@ int main(void) {
 
                         AnalogToDigitalConverter_disable();
 
+                        // Measured temperature and battery voltage
+                        enableGreenLED(true);
+                        Timer_delayMilliseconds(1000);
+                        enableGreenLED(false);
+                        Timer_delayMilliseconds(1000);
+
                         // Power up radio
 
                         Radio_powerOn();
 
+                        // Powered on radio
+                        enableGreenLED(true);
+                        Timer_delayMilliseconds(1000);
+                        enableGreenLED(false);
+                        Timer_delayMilliseconds(1000);
+
                         Radio_enableHFXOInput();
+
+                        // Enabled high-frequency oscillator
+                        enableGreenLED(true);
+                        Timer_delayMilliseconds(1000);
+                        enableGreenLED(false);
+                        Timer_delayMilliseconds(1000);
 
                         // Wait short period for radio to stabilize
 
@@ -1285,6 +1309,12 @@ int main(void) {
 
                         uint32_t frequency =  measureHFXO();
 
+                        // Measured oscillator frequency
+                        enableGreenLED(true);
+                        Timer_delayMilliseconds(1000);
+                        enableGreenLED(false);
+                        Timer_delayMilliseconds(1000);
+
                         bool frequencyGood = frequency > HFXO_FREQ - HFXO_FREQ_MARGIN && frequency < HFXO_FREQ + HFXO_FREQ_MARGIN;
 
                         if (frequencyGood) {
@@ -1292,6 +1322,12 @@ int main(void) {
                             // Switch HF clock to HFXO
 
                             CMU_ClockSelectSet(cmuClock_HF, cmuSelect_HFXO);
+
+                            // Switched to high-frequency clock
+                            enableGreenLED(true);
+                            Timer_delayMilliseconds(1000);
+                            enableGreenLED(false);
+                            Timer_delayMilliseconds(1000);
 
                             // Get timestamp for snapshot
 
@@ -1301,9 +1337,21 @@ int main(void) {
 
                             Radio_captureSnapshot((uint8_t*)SNAPSHOT_BUFFER_LOCATION, SNAPSHOT_BUFFER_SIZE);
 
+                            // Catured snapshot
+                            enableGreenLED(true);
+                            Timer_delayMilliseconds(1000);
+                            enableGreenLED(false);
+                            Timer_delayMilliseconds(1000);
+
                             // Switch HF clock to HFRCO
 
                             CMU_ClockSelectSet(cmuClock_HF, cmuSelect_HFRCO);
+
+                            // Switched to low-frequency clock
+                            enableGreenLED(true);
+                            Timer_delayMilliseconds(1000);
+                            enableGreenLED(false);
+                            Timer_delayMilliseconds(1000);
 
                         } else {
 
@@ -1326,6 +1374,12 @@ int main(void) {
                         if (frequencyGood) {
 
                             // TODO: remove (Flash green LED once)
+
+                            // Disabled high-frequency oscillator and powered-off radio
+                            enableGreenLED(true);
+                            Timer_delayMilliseconds(1000);
+                            enableGreenLED(false);
+                            Timer_delayMilliseconds(1000);
 
                             enableGreenLED(true);
                             Timer_delayMilliseconds(10);
