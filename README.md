@@ -32,7 +32,7 @@ To build the SnapperGPS firmware, the directory [firmware_versions/snapper/build
 Building requires the [Arm GNU Toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain), which is a compiler toolchain for Arm based CPUs that is free to download and use (as of writing) and runs on GNU/Linux, Windows, and macOS.
 To use it to build your own SnapperGPS firmware, proceed with the following steps:
 
-* Download the toolchain for your OS from [here](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads-1).
+* Download the toolchain for your OS from [here](https://developer.arm.com/downloads/-/gnu-rm). Select version 10.3 or an earlier version.
 * Unpack the files to a directory of your choice.
 * Make sure that you can run the `make` command on your system. Depending on your OS, you might have to set it up first.
 * Open the [SnapperGPS make file](firmware_versions/snapper/build/Makefile) with an editor of your choice.
