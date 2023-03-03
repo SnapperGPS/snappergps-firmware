@@ -13,11 +13,17 @@
 
 #define FLASH_PAGES_PER_BLOCK       64
 
-#define FLASH_NUM_BLOCKS            512
-
-#define FLASH_NUM_PAGES             (FLASH_NUM_BLOCKS * FLASH_PAGES_PER_BLOCK)
-
 typedef enum {FLASH_SUCCESS, FLASH_ADDRESS_INVALID} FlashResult_t;
+
+extern bool Flash_isW25N01GV;
+
+extern uint16_t Flash_numBlocks;
+
+extern uint32_t Flash_numPages;
+
+#define FLASH_NUM_BLOCKS            Flash_numBlocks
+
+#define FLASH_NUM_PAGES             Flash_numPages
 
 void Flash_powerOn(void);
 
@@ -62,5 +68,7 @@ FlashResult_t Flash_enableContinuousRead(uint32_t address);
 uint8_t Flash_readContinuousByte(void);
 
 void Flash_disableContinuousRead(void);
+
+void Flash_init(void);
 
 #endif /* __FLASH_H */

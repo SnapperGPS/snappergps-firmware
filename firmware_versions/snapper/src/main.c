@@ -251,7 +251,7 @@ static volatile bool loadFirmware = false;
 
 /* Firmware version */
 
-static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 7};
+static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 8};
 
 static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-Basic";
 
@@ -642,7 +642,7 @@ int dataReceivedWebUSBCallback(USB_Status_TypeDef status, uint32_t xferred, uint
 
             while (Flash_isBusy());
 
-            // Make blocks writebale
+            // Make blocks writable
 
             Flash_removeProtection();
 
@@ -951,6 +951,10 @@ int main(void) {
         Timer_delayMilliseconds(1);
 
         Flash_enableInterface();
+
+        // Check for board with 1-GBit external flash
+
+        Flash_init();
 
         // Address of next unread page in flash
 
