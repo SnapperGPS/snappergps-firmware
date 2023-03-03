@@ -346,6 +346,14 @@ void Flash_disableContinuousRead()
 
 > Disable continuous reading.
 
+```C
+void Flash_init()
+```
+
+> Check if flash memory is 1 GBit (W25N01GV) or 512 MBit (W25N512GV) and set parameters for following function calls accordingly.
+> Default is 512 MBit (W25N512GV).
+> If 1 GBit (W25N01GV) is used, then this function must be called once in your main function after `Flash_powerOn()` and `Flash_enableInterface()` before any other flash function is called.
+
 ### radio
 
 *Functions for the receiver IC (the radio):*
