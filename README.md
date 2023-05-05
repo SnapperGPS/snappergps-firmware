@@ -756,18 +756,17 @@ typedef struct {
 
 ## Acknowledgements
 
-SnapperGPS is developed by
-[Jonas Beuchert](https://users.ox.ac.uk/~kell5462/),
-[Amanda Matthes](https://amanda-matthes.github.io/), and
+This SnapperGPS firmware was developed by
+[Jonas Beuchert](https://users.ox.ac.uk/~kell5462/) and
 [Alex Rogers](https://www.cs.ox.ac.uk/people/alex.rogers/)
 in the Department of Computer Science
 of the University of Oxford.
 
-Jonas Beuchert and Amanda Matthes are
+Jonas Beuchert is
 funded by the EPSRC Centre for Doctoral Training in
 Autonomous Intelligent Machines and Systems
-(DFT00350-DF03.01, DFT00350-DF03.05) and develop
-SnapperGPS as part of their doctoral studies.
+(DFT00350-DF03.01) and develops
+SnapperGPS as part of his doctoral studies.
 The implementation of SnapperGPS 
 was co-funded by an EPSRC IAA Technology Fund
 (D4D00010-BL14).
