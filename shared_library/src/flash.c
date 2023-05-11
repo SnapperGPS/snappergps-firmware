@@ -16,7 +16,7 @@
 
 #define FLASH_USART_CLK         cmuClock_USART0
 
-/* Flash instructions (W25N512GV) */
+/* Flash instructions (W25N512GV and W25N01GV) */
 
 #define FLASH_CMD_PP            0x02        // Load program (1 to 2112 bytes)
 #define FLASH_CMD_EXEC          0x10        // Program execute
@@ -24,13 +24,14 @@
 #define FLASH_CMD_READ          0x03        // Read data (after read paga data)
 #define FLASH_CMD_RDSR          0x05        // Read status register
 #define FLASH_CMD_WREN          0x06        // Write enable
-#define FLASH_CMD_CE            0x60        // Chip erase (may take several seconds)
+#define FLASH_CMD_CE            0x60        // Chip erase (may take several seconds), W25N512GV only
 #define FLASH_CMD_BE            0xD8        // Block erase
-#define FLASH_CMD_RSTEN         0x66        // Enable reset
-#define FLASH_CMD_RST           0x99        // Reset device
+#define FLASH_CMD_RSTEN         0x66        // Enable reset, W25N512GV only
+#define FLASH_CMD_RST           0x99        // Reset device, W25N512GV
+#define FLASH_CMD_RST_W25N01GV  0xFF        // Reset device, W25N01GV
 #define FLASH_CMD_RDID          0x9F        // Read JEDEC ID
-#define FLASH_CMD_DP            0xB9        // Deep power down
-#define FLASH_CMD_RDP           0xAB        // Release power-down
+#define FLASH_CMD_DP            0xB9        // Deep power-down, W25N512GV only
+#define FLASH_CMD_RDP           0xAB        // Release power-down, W25N512GV only
 #define FLASH_CMD_WRSR          0x01        // Write status register
 #define FLASH_CMD_BAD_BLK_MGMT  0xA1        // Bad block management
 #define FLASH_CMD_READ_BBM_LUT  0xA5        // Read bad block management look-up table
@@ -46,6 +47,14 @@
 #define CS_LOW                   GPIO_PinModeSet(FLASH_CS_PORT, FLASH_CS_PIN, gpioModePushPull, 0)
 
 #define CS_HIGH                  GPIO_PinModeSet(FLASH_CS_PORT, FLASH_CS_PIN, gpioModeDisabled, 0)
+
+/* Global variables */
+
+bool Flash_isW25N01GV = false;
+
+uint16_t Flash_numBlocks = 512;
+
+uint32_t Flash_numPages = 512 * FLASH_PAGES_PER_BLOCK;
 
 /* Private functions */
 
@@ -146,33 +155,57 @@ void Flash_readID(uint32_t *id) {
 
 void Flash_reset() {
 
-    CS_LOW;
+    if (!Flash_isW25N01GV) {
 
-    sendByte(FLASH_CMD_RSTEN);
+        CS_LOW;
 
-    CS_HIGH;
+        sendByte(FLASH_CMD_RSTEN);
 
-    CS_LOW;
+        CS_HIGH;
 
-    sendByte(FLASH_CMD_RST);
+        CS_LOW;
 
-    CS_HIGH;
+        sendByte(FLASH_CMD_RST);
+
+        CS_HIGH;
+
+    } else {
+
+        CS_LOW;
+
+        sendByte(FLASH_CMD_RST_W25N01GV);
+
+        CS_HIGH;
+
+    }
 
 }
 
 void Flash_erase() {
 
-    CS_LOW;
+    if (!Flash_isW25N01GV) {
 
-    sendByte(FLASH_CMD_WREN);
+        CS_LOW;
 
-    CS_HIGH;
+        sendByte(FLASH_CMD_WREN);
 
-    CS_LOW;
+        CS_HIGH;
 
-    sendByte(FLASH_CMD_CE);
+        CS_LOW;
 
-    CS_HIGH;
+        sendByte(FLASH_CMD_CE);
+
+        CS_HIGH;
+
+    } else {
+
+        for (uint32_t address = 0; address < Flash_numPages; address += FLASH_PAGES_PER_BLOCK) {
+            while (Flash_isBusy());
+            Flash_blockErase(address);
+            while (Flash_isBusy());
+        }
+
+    }
 
 }
 
@@ -183,6 +216,8 @@ void Flash_blockErase(uint32_t address) {
     sendByte(FLASH_CMD_WREN);
 
     CS_HIGH;
+
+    if (Flash_isW25N01GV) while (Flash_isBusy());
 
     CS_LOW;
 
@@ -198,21 +233,29 @@ void Flash_blockErase(uint32_t address) {
 
 void Flash_enterDeepPowerDownMode() {
 
-    CS_LOW;
+    if (!Flash_isW25N01GV) {
 
-    sendByte(FLASH_CMD_DP);
+        CS_LOW;
 
-    CS_HIGH;
+        sendByte(FLASH_CMD_DP);
+
+        CS_HIGH;
+
+    }
 
 }
 
 void Flash_leaveDeepPowerDownMode() {
 
-    CS_LOW;
+    if (!Flash_isW25N01GV) {
 
-    sendByte(FLASH_CMD_RDP);
+        CS_LOW;
 
-    CS_HIGH;
+        sendByte(FLASH_CMD_RDP);
+
+        CS_HIGH;
+
+    }
 
 }
 
@@ -298,7 +341,7 @@ void Flash_writeConfigurationRegister(uint8_t *status) {
 
 FlashResult_t Flash_readBytes(uint32_t address, uint8_t *dest, uint32_t length) {
 
-    if (address >= FLASH_NUM_PAGES) return FLASH_ADDRESS_INVALID;
+    if (address >= Flash_numPages) return FLASH_ADDRESS_INVALID;
 
     if (length > FLASH_PAGE_LENGTH) length = FLASH_PAGE_LENGTH;
 
@@ -340,7 +383,7 @@ FlashResult_t Flash_readPage(uint32_t address, uint8_t *dest) {
 
 FlashResult_t Flash_writePage(uint32_t address, uint8_t *src) {
 
-    if (address >= FLASH_NUM_PAGES) return FLASH_ADDRESS_INVALID;
+    if (address >= Flash_numPages) return FLASH_ADDRESS_INVALID;
 
     CS_LOW;
 
@@ -381,7 +424,7 @@ FlashResult_t Flash_writePage(uint32_t address, uint8_t *src) {
 
 FlashResult_t Flash_enableContinuousRead(uint32_t address) {
 
-    if (address >= FLASH_NUM_PAGES) return FLASH_ADDRESS_INVALID;
+    if (address >= Flash_numPages) return FLASH_ADDRESS_INVALID;
 
     while (Flash_isBusy());
 
@@ -429,5 +472,19 @@ uint8_t Flash_readContinuousByte() {
 void Flash_disableContinuousRead() {
 
     CS_HIGH;
+
+}
+
+void Flash_init() {
+
+    uint32_t id;
+
+    Flash_readID(&id);
+
+    Flash_isW25N01GV = (id == 0xEFAA21);
+
+    Flash_numBlocks = Flash_isW25N01GV ? 1024 : 512;
+
+    Flash_numPages = Flash_numBlocks * FLASH_PAGES_PER_BLOCK;
 
 }

@@ -1,0 +1,8 @@
+.DS_Store
+firmware_versions/snapper/build/*.axf
+firmware_versions/snapper/build/*.bin
+firmware_versions/snapper/build/*.hex
+firmware_versions/snapper/build/*.lst
+firmware_versions/snapper/build/*.map
+firmware_versions/snapper/build/objects/*.d
+firmware_versions/snapper/build/objects/*.o
