@@ -23,7 +23,7 @@ The firmware is exclusively written in the C programming language.
 The firmware is split into two parts:
 
 * A *shared_library* that aims to contain functions that are useful across different firmware version. This includes parts of the [CMSIS](https://developer.arm.com/tools-and-software/embedded/cmsis), the [EMLIB](https://docs.silabs.com/gecko-platform/latest/emlib/api), and the EMUSB libraries as well as custom functions for the timer, the analogue-to-digital converter (ADC), the flash, and the radio of a SnapperGPS receiver.
-* A directory *firmware_versions*, which may contain different variants of the firmware that all build on the *shared-library*. As of writing, this repository just contains the general-purpose standard firmware. If you want to create your own firmware versions, then you can add additional sub-directories to *firmware_versions* with the same structure as the existing one.
+* A directory *firmware_versions*, which may contain different variants of the firmware that all build on the *shared-library*. As of writing, this repository just contains the general-purpose standard firmware and the firmware for a SnapperGPS receiver with accelerometer daughter-board. If you want to create your own firmware versions, then you can add additional sub-directories to *firmware_versions* with the same structure as the existing one.
 
 ## Building
 
