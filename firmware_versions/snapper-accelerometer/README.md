@@ -11,7 +11,7 @@ The z-axis of the accelerometer points downwards, i.e., away from the antenna.
 The x-axis points in the same direction as the USB connector.
 The y-axis points away from the side of the board with the pads.
 
-To use the accelerometer, flash this firmware using [https://snappergps.info/flash](https://snappergps.info/flash).
+To use the accelerometer, flash [this firmware](https://github.com/SnapperGPS/snappergps-firmware/releases/download/accelerometer-v0.0.1/acceleration-snapper.bin) using [https://snappergps.info/flash](https://snappergps.info/flash).
 
 You can configure the SnapperGPS as normal.
 In addition to GPS snapshots, it will then also capture accelerations in a rate that is twenty times higher than the configured GPS snapshot rate.
