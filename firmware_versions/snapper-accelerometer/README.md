@@ -2,7 +2,7 @@
 
 *Author: Jonas Beuchert*
 
-The daughter-board is built around a [LIS3DH 3-axis MEMS accelerometer](https://www.st.com/en/mems-and-sensors/lis3dh.html).
+[The daughter-board](https://github.com/SnapperGPS/snappergps-accelerometer-daughterboard) is built around a [LIS3DH 3-axis MEMS accelerometer](https://www.st.com/en/mems-and-sensors/lis3dh.html).
 It is soldered onto the five pads of the SnapperGPS main board.
 The daughter-board is orientated such that the two pads labeled `VDD` connect.
 The two boards communicate via I2C.
