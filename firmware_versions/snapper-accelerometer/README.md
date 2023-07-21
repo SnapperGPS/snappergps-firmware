@@ -21,3 +21,8 @@ The data is returned as JSON file and as CSV file, both of which contain the sam
 The measurements are in units of `g` (gravitational acceleration).
 
 A simple Python script to plot accelerations can be found [here](https://github.com/snapperGPS/snappergps-scripts).
+
+**LED patterns**
+
+If the accelerometer daughter-board is correctly connected and the `SnapperGPS-Accelerometer` is flashed, then the green LED will blink when the receiver is powered via USB.
+If the accelerometer daughter-board is incorrectly or not connected and the `SnapperGPS-Accelerometer` is flashed, then the red LED will blink when the receiver is powered via USB.
