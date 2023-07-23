@@ -48,4 +48,6 @@ void Accelerometer_enableInterface();
 // Disable I2C for LIS3DH
 void Accelerometer_disableInterface();
 
+bool Accelerometer_isAvailable();
+
 #endif /* __ACCELEROMETER_H */
