@@ -30,7 +30,6 @@
 // address = 0x19.
 #define LIS3DH_I2C_ADDRESS          0b0011001
 
-
 // Registers
 #define LIS3DH_AUX          0x07
 #define LIS3DH_CTRL_REG0    0x1E
@@ -48,6 +47,12 @@
 #define LIS3DH_OUT_Z_H      0x2D
 #define LIS3DH_FIFO_CTRL    0x2E
 #define LIS3DH_WHO_AM_I     0x0F
+
+// Content of the WHO_AM_I register
+#define LIS3DH_ID                   0b00110011
+
+// Constants
+#define TIMEOUT             10000
 
 // I2C variables
 
@@ -90,9 +95,13 @@ static void read(uint8_t *message, uint8_t *data, int32_t messageLength, int32_t
 
     status = I2C_TransferInit(I2C0, &seq);
 
-    while (status == i2cTransferInProgress) {
+    uint32_t counter = 0;
 
-        EMU_EnterEM1();
+    while (status == i2cTransferInProgress && counter < TIMEOUT) {
+
+        // EMU_EnterEM1();
+
+        ++counter;
 
     }
 
@@ -346,5 +355,13 @@ void Accelerometer_disableInterface() {
     CMU_ClockEnable(cmuClock_I2C0, false);
 
     NVIC_DisableIRQ(I2C0_IRQn);
+
+}
+
+bool Accelerometer_isAvailable() {
+
+    uint8_t whoAmI = Accelerometer_whoAmI();
+
+    return whoAmI == LIS3DH_ID;
 
 }

@@ -266,7 +266,7 @@ static volatile bool loadFirmware = false;
 
 /* Firmware version */
 
-static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 1};
+static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 2};
 
 static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-Accelerometer";
 
@@ -282,7 +282,7 @@ static int16_t y = 0;
 
 static int16_t z = 0;
 
-static uint8_t ctrlReg[7] = {42, 42, 42, 42, 42, 42, 42};
+static uint8_t ctrlReg[7] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 // Create acceleration arrays at same location as transmitBuffer
 int16_t *accelerationsX = (int16_t*) transmitBuffer;
@@ -1049,14 +1049,12 @@ int main(void) {
 
         Accelerometer_enableInterface();
 
-        // Wait until accelerometer is available
-        uint8_t id = Accelerometer_whoAmI();
-        while (id != 0b00110011) {
-            Timer_delayMicroseconds(500);
-            id = Accelerometer_whoAmI();
-        }
+        // Check if accelerometer is available
+        if (Accelerometer_isAvailable()) {
 
-        Accelerometer_enableLowPowerMode();
+            Accelerometer_enableLowPowerMode();
+
+        }
 
         Accelerometer_disableInterface();
 
@@ -1130,29 +1128,36 @@ int main(void) {
 
             Accelerometer_enableInterface();
 
-            // Wait until accelerometer is available
-            uint8_t id = Accelerometer_whoAmI();
-            while (id != 0b00110011) {
-                Timer_delayMicroseconds(500);
-                id = Accelerometer_whoAmI();
+            // Check if accelerometer is available
+            if (Accelerometer_isAvailable()) {
+
+                Accelerometer_selectDataRate(1);
+
+                // Wait until accelerometer data is available
+                bool dataAvailable = Accelerometer_isNewDataAvailable();
+                while (!dataAvailable) {
+                    Timer_delayMicroseconds(500);
+                    dataAvailable = Accelerometer_isNewDataAvailable();
+                }
+
+                enableGreenLED(true);
+
+                Accelerometer_readXYZ(&x, &y, &z);
+
+                Accelerometer_readCtrlReg(ctrlReg);
+
+                Accelerometer_selectDataRate(0);
+
+            } else {
+
+                x = 0;
+                y = 0;
+                z = 0;
+                for (uint8_t i = 0; i < 7; ++i) {
+                    ctrlReg[i] = 0;
+                }
+
             }
-
-            Accelerometer_selectDataRate(1);
-
-            // Wait until accelerometer data is available
-            bool dataAvailable = Accelerometer_isNewDataAvailable();
-            while (!dataAvailable) {
-                Timer_delayMicroseconds(500);
-                dataAvailable = Accelerometer_isNewDataAvailable();
-            }
-
-            enableGreenLED(true);
-
-            Accelerometer_readXYZ(&x, &y, &z);
-
-            Accelerometer_readCtrlReg(ctrlReg);
-
-            Accelerometer_selectDataRate(0);
 
             Accelerometer_disableInterface();
 
@@ -1362,25 +1367,29 @@ int main(void) {
 
                         Accelerometer_enableInterface();
 
-                        // Wait until accelerometer is available
-                        uint8_t id = Accelerometer_whoAmI();
-                        while (id != 0b00110011) {
-                            Timer_delayMicroseconds(500);
-                            id = Accelerometer_whoAmI();
+                        // Check if accelerometer is available
+                        if (Accelerometer_isAvailable()) {
+
+                            Accelerometer_selectDataRate(1);
+
+                            // Wait until accelerometer data is available
+                            bool dataAvailable = Accelerometer_isNewDataAvailable();
+                            while (!dataAvailable) {
+                                Timer_delayMicroseconds(500);
+                                dataAvailable = Accelerometer_isNewDataAvailable();
+                            }
+
+                            Accelerometer_readXYZ(&x, &y, &z);
+
+                            Accelerometer_selectDataRate(0);
+
+                        } else {
+
+                            x = 0;
+                            y = 0;
+                            z = 0;
+
                         }
-
-                        Accelerometer_selectDataRate(1);
-
-                        // Wait until accelerometer data is available
-                        bool dataAvailable = Accelerometer_isNewDataAvailable();
-                        while (!dataAvailable) {
-                            Timer_delayMicroseconds(500);
-                            dataAvailable = Accelerometer_isNewDataAvailable();
-                        }
-
-                        Accelerometer_readXYZ(&x, &y, &z);
-
-                        Accelerometer_selectDataRate(0);
 
                         Accelerometer_disableInterface();
 
