@@ -96,7 +96,7 @@
 
 /* Pressure sensor constants */
 
-#define PRESSURE_MEASUREMENTS_PER_SNAPSHOT      20
+#define PRESSURE_MEASUREMENTS_PER_SNAPSHOT      64
 
 /* Useful macros */
 
@@ -261,7 +261,7 @@ static volatile bool loadFirmware = false;
 
 static uint8_t firmwareVersion[FIRMWARE_VERSION_LENGTH] = {0, 0, 0};
 
-static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-PressureSensor";
+static uint8_t firmwareDescription[FIRMWARE_DESCRIPTION_LENGTH] = "SnapperGPS-PressureSensor-64-02";
 
 /* Board version */
 
